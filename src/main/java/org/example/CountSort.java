@@ -1,10 +1,14 @@
 package org.example;
 
+import java.util.Arrays;
+
 public class CountSort implements SortStrategy{
     @Override
     public void sort(int[] array){
+        System.out.println("Count Sort");
         int[] outputArray = countSort(array);
         System.arraycopy(outputArray, 0, array, 0, outputArray.length);
+        System.out.println(Arrays.toString(array));
     }
 
     public static int[] countSort(int[] inputArray) {

@@ -3,57 +3,72 @@ package org.example;
 import java.util.Arrays;
 import java.util.Random;
 
+
+
+/*
+Used source material from https://www.geeksforgeeks.org/sorting-algorithms/
+ */
+
 public class Main {
     private Random random;
     private static int[] array1 = new int[30];
     private static int[] array2 = new int[100000];
+    private static long beforeTime;
+    private static long afterTime;
     private static CountSort countSort = new CountSort();
     private static CycleSort cycleSort = new CycleSort();
     private static QuickSort quickSort = new QuickSort();
 
     public static void giveNumbers(){
         for (int i = 0; i < array1.length; i++) {
-            array1[i] = new Random().nextInt(100);
+            array1[i] = new Random().nextInt(30);
         }
         for (int i = 0; i < array2.length; i++) {
-            array2[i] = new Random().nextInt(100);
+            array2[i] = new Random().nextInt(10000);
         }
     }
     public static void main(String[] args) {
-        SortContext context = new SortContext();
+        SortContext cycle = new SortContext();
+        SortContext count = new SortContext();
+        SortContext quick = new SortContext();
+
         giveNumbers();
 
-        context.setSortStrategy(cycleSort);
-        for (int j : array1) {
-            System.out.println(j);
-        }
-        context.sort(array1);
-        for (int j : array1) {
-            System.out.println(j);
-        }
-        System.out.println("Sort1 done");
-        giveNumbers();
-        context.setSortStrategy(quickSort);
-        for (int j : array1) {
-            System.out.println(j);
-        }
-        System.out.println("Sort2");
-        context.sort(array1);
-        for (int j : array1) {
-            System.out.println(j);
-        }
+        cycle.setSortStrategy(cycleSort);
+        count.setSortStrategy(countSort);
+        quick.setSortStrategy(quickSort);
 
-        System.out.println("Sort2 done");
+        beforeTime = System.currentTimeMillis();
+        cycle.sort(array1);
+        cycle.sort(array2);
+        afterTime = System.currentTimeMillis();
+        long cycleTime = afterTime- beforeTime;
+        System.out.println("Cycle Sort Done! Time: " + cycleTime + " ms");
+
         giveNumbers();
-        context.setSortStrategy(countSort);
-        for (int j : array1) {
-            System.out.println(j);
-        }
-        System.out.println("Sort3");
-        context.sort(array1);
-        for (int j : array1) {
-            System.out.println(j);
-        }
+
+        beforeTime = System.currentTimeMillis();
+        count.sort(array1);
+        count.sort(array2);
+        afterTime = System.currentTimeMillis();
+        long countTime = afterTime- beforeTime;
+        System.out.println("Count Sort Done! Time: " + countTime + " ms");
+
+        giveNumbers();
+
+        beforeTime = System.currentTimeMillis();
+        quick.sort(array1);
+        quick.sort(array2);
+        afterTime = System.currentTimeMillis();
+        long quickTime = afterTime- beforeTime;
+        System.out.println("Quick Sort Done! Time: " + quickTime + " ms");
+
+
+        System.out.println("Times Taken For Sorting:");
+        System.out.println("Cycle Sort: " + cycleTime + " ms");
+        System.out.println("Count Sort: " + countTime + " ms");
+        System.out.println("Quick Sort: " + quickTime + " ms");
+
 
     }
 }
